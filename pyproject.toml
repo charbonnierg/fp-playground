@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fp"
+authors = [
+    { name = "Guillaume Charbonnier", email = "guillaume.charbonnier@araymond.com" },
+]
+description = "Library used to learn about functional programming in Python"
+readme = "README.md"
+requires-python = ">=3.8,<4.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+]
+dynamic = ["version"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "anyio",
+    "build",
+    "black",
+    "isort",
+    "invoke",
+    "flake8",
+    "pytest",
+    "pytest-cov",
+    "mutmut",
+    "wheel",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "fp.__about__.__version__" }
+
+[tool.pyright]
+
+pythonVersion = "3.10"
+include = ["tests", "src", "examples", "tasks.py"]
+strict = ["src", "examples"]
+exclude = ["**/.venv", "**/node_modules", "**/__pycache__", ".git", "**/build"]
+venv = ".venv"
+venvPath = "."
+typeCheckingMode = "basic"
+reportUnnecessaryTypeIgnoreComment = "warning"
