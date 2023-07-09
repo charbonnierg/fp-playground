@@ -3,7 +3,8 @@ from __future__ import annotations
 import typing as t
 from asyncio import iscoroutinefunction
 
-from ._result_types import L, R, T
+from _fp._result_types import L, R, T
+
 from .result import Err, Ok, Result
 
 
@@ -24,7 +25,7 @@ class Promise(t.Generic[L, R]):
         return self._coro.__await__()
 
     @classmethod
-    def of_ok(cls, coro: t.Awaitable[L]) -> Promise[L, R]:
+    def ok_from(cls, coro: t.Awaitable[L]) -> Promise[L, R]:
         """Create a promise of an `Ok` value from a coroutine function or an awaitable."""
 
         async def _of_ok() -> Result[L, R]:
@@ -33,7 +34,7 @@ class Promise(t.Generic[L, R]):
         return Promise(_of_ok())
 
     @classmethod
-    def of_err(cls, coro: t.Awaitable[R]) -> Promise[L, R]:
+    def err_from(cls, coro: t.Awaitable[R]) -> Promise[L, R]:
         """Create a promise of an `Err` value from a coroutine function or an awaitable."""
 
         async def _of_ok() -> Result[L, R]:

@@ -3,7 +3,8 @@ from __future__ import annotations
 import typing as t
 from asyncio import iscoroutinefunction
 
-from ._func_types import T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, L, R, T
+from _fp._func_types import T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, L, R, T
+
 from .result import Err, Ok, Result
 
 
@@ -70,14 +71,14 @@ def visit(fn: t.Callable[[L], t.Any]) -> t.Callable[[Result[L, R]], Result[L, R]
     return _visit
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def within_context(
     func: t.Callable[[L], t.Awaitable[Result[T, R]]],
 ) -> t.Callable[[t.ContextManager[Result[L, R]]], t.Awaitable[Result[T, R]]]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def within_context(
     func: t.Callable[[L], Result[T, R]],
 ) -> t.Callable[[t.ContextManager[Result[L, R]]], Result[T, R]]:
@@ -108,57 +109,57 @@ def within_context(
     return _wrapper
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T1]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T2]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
     f3: t.Callable[[T2], T3],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T3]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
     f3: t.Callable[[T2], T3],
     f4: t.Callable[[T3], T4],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T4]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
     f3: t.Callable[[T2], T3],
     f4: t.Callable[[T3], T4],
     f5: t.Callable[[T4], T5],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T5]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
@@ -166,12 +167,12 @@ def pipe(
     f4: t.Callable[[T3], T4],
     f5: t.Callable[[T4], T5],
     f6: t.Callable[[T5], T6],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T6]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
@@ -180,12 +181,12 @@ def pipe(
     f5: t.Callable[[T4], T5],
     f6: t.Callable[[T5], T6],
     f7: t.Callable[[T6], T7],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T7]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
@@ -195,12 +196,12 @@ def pipe(
     f6: t.Callable[[T5], T6],
     f7: t.Callable[[T6], T7],
     f8: t.Callable[[T7], T8],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T8]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
@@ -211,12 +212,12 @@ def pipe(
     f7: t.Callable[[T6], T7],
     f8: t.Callable[[T7], T8],
     f9: t.Callable[[T8], T9],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T9]:
     ...
 
 
-@t.overload
+@t.overload  # pragma: no mutate
 def pipe(
     f1: t.Callable[[T0], T1],
     f2: t.Callable[[T1], T2],
@@ -228,7 +229,7 @@ def pipe(
     f8: t.Callable[[T7], T8],
     f9: t.Callable[[T8], T9],
     f10: t.Callable[[T9], T10],
-    /,
+    /,  # pragma: no mutate
 ) -> t.Callable[[T0], T10]:
     ...
 

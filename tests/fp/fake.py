@@ -23,11 +23,11 @@ async def plus_one_async_err(value: int):
     return Err(value + 1)
 
 
-def fail_if_called(value: int):
+def fail_if_called(value: object):
     raise AssertionError
 
 
-async def async_fail_if_called(value: int):
+async def async_fail_if_called(value: object):
     raise AssertionError
 
 

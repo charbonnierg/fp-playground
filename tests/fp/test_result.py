@@ -33,6 +33,9 @@ class TestResultDunder:
         result = Ok(value)
         assert bool(result) is True
 
+    def test_given_ok_and_err_with_same_value_then_equal_is_false(self, value: object):
+        assert Ok(value) != Err(value)
+
 
 class TestOkMethods:
     def test_given_ok_when_map_then_apply_fn_to_value(self):

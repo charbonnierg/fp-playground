@@ -1,7 +1,6 @@
 import pytest
 
-from fp import Err, Ok, aio, fmap
-from fp.func_sync import fmap_err
+from fp import Err, Ok, aio, fmap, fmap_err
 from tests.fp import fake
 
 
@@ -178,3 +177,7 @@ class TestPipe:
             fmap_err(lambda x: x + "a"),
         )
         assert await fn(0) == Err("1a")
+
+    async def test_given_keyword_argument_is_provided_then_type_error_is_raised(self):
+        with pytest.raises(TypeError):
+            aio.pipe(fn=lambda x: x)  # type: ignore
