@@ -3,12 +3,14 @@ from __future__ import annotations
 import typing as t
 from asyncio import iscoroutinefunction
 
+import anyio
+
 from _fp._func_types import T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, L, R, T
 
 from .result import Err, Ok, Result
 
 
-def map(
+def fmap(
     fn: t.Callable[[L], t.Awaitable[T]] | t.Callable[[L], T]
 ) -> t.Callable[[Result[L, R]], t.Awaitable[Result[T, R]]]:
     async def _map(result: "Result[L, R]") -> "Result[T, R]":
@@ -22,7 +24,7 @@ def map(
     return _map
 
 
-def map_err(
+def fmap_err(
     fn: t.Callable[[R], t.Awaitable[T]] | t.Callable[[R], T]
 ) -> t.Callable[[Result[L, R]], t.Awaitable[Result[L, T]]]:
     async def _map(result: Result[L, R]) -> Result[L, T]:
@@ -76,6 +78,22 @@ def visit(
         return result
 
     return _visit
+
+
+def with_timeout(
+    timeout: float | None,
+    fn: t.Callable[[L], t.Awaitable[Result[T, R]]],
+    err: t.Callable[[L], R] | t.Callable[[L], t.Awaitable[R]],
+) -> t.Callable[[L], t.Awaitable[Result[T, R]]]:
+    async def _with_timeout(value: L) -> Result[T, R]:
+        with anyio.move_on_after(timeout):
+            return await fn(value)
+        if iscoroutinefunction(err):
+            return Err(await err(value))  # type: ignore
+        else:
+            return Err(err(value))
+
+    return _with_timeout
 
 
 def within_context(

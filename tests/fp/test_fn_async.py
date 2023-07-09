@@ -9,21 +9,21 @@ class TestMap:
     async def test_given_ok_result_and_sync_fn_when_map_and_async_fn_then_apply_fn_to_result_value(
         self,
     ):
-        fn = aio.pipe(aio.map(lambda x: x + 1))
+        fn = aio.pipe(aio.fmap(lambda x: x + 1))
         assert await fn(Ok(1)) == Ok(2)
 
     async def test_given_ok_result_and_async_fn_when_map_then_apply_fn_to_result_value(
         self,
     ):
-        fn = aio.pipe(aio.map(fake.plus_one_async))
+        fn = aio.pipe(aio.fmap(fake.plus_one_async))
         assert await fn(Ok(1)) == Ok(2)
 
     async def test_given_err_result_and_sync_fn_when_map_then_return_self(self):
-        fn = aio.pipe(aio.map(fake.fail_if_called))
+        fn = aio.pipe(aio.fmap(fake.fail_if_called))
         assert await fn(Err(1)) == Err(1)
 
     async def test_given_err_result_and_async_fn_when_map_then_return_self(self):
-        fn = aio.pipe(aio.map(fake.async_fail_if_called))
+        fn = aio.pipe(aio.fmap(fake.async_fail_if_called))
         assert await fn(Err(1)) == Err(1)
 
 
@@ -56,23 +56,23 @@ class TestBind:
 @pytest.mark.anyio
 class TestMapErr:
     async def test_given_ok_result_and_sync_fn_when_map_err_then_return_self(self):
-        fn = aio.pipe(aio.map_err(fake.fail_if_called))
+        fn = aio.pipe(aio.fmap_err(fake.fail_if_called))
         assert await fn(Ok(1)) == Ok(1)
 
     async def test_given_ok_result_and_async_fn_when_map_err_then_return_self(self):
-        fn = aio.pipe(aio.map_err(fake.async_fail_if_called))
+        fn = aio.pipe(aio.fmap_err(fake.async_fail_if_called))
         assert await fn(Ok(1)) == Ok(1)
 
     async def test_given_err_result_and_sync_fn_when_map_err_then_apply_fn_to_result_value(
         self,
     ):
-        fn = aio.pipe(aio.map_err(lambda x: x + 1))
+        fn = aio.pipe(aio.fmap_err(lambda x: x + 1))
         assert await fn(Err(1)) == Err(2)
 
     async def test_given_err_result_and_async_fn_when_map_err_then_apply_fn_to_result_value(
         self,
     ):
-        fn = aio.pipe(aio.map_err(fake.plus_one_async))
+        fn = aio.pipe(aio.fmap_err(fake.plus_one_async))
         assert await fn(Err(1)) == Err(2)
 
 
@@ -141,6 +141,35 @@ class TestVisit:
 
 
 @pytest.mark.anyio
+class TestWithTimeout:
+    async def test_given_async_fn_when_timeout_not_reached_then_return_result(self):
+        fn = aio.pipe(
+            aio.with_timeout(0.1, fake.plus_one_async_ok, lambda _: "timeout")
+        )
+        assert await fn(1) == Ok(2)
+
+    async def test_given_async_fn_when_timeout_reached_then_create_err_async(self):
+        fn = aio.pipe(
+            aio.with_timeout(
+                timeout=1e-9,
+                fn=fake.long_coro,
+                err=fake.err_callback_async,
+            )
+        )
+        assert await fn(1) == Err(await fake.err_callback_async(1))
+
+    async def test_given_async_fn_when_timeout_reached_then_create_err_sync(self):
+        fn = aio.pipe(
+            aio.with_timeout(
+                timeout=1e-9,
+                fn=fake.long_coro,
+                err=lambda _: "timeout",
+            )
+        )
+        assert await fn(1) == Err("timeout")
+
+
+@pytest.mark.anyio
 class TestWithinContext:
     @pytest.mark.parametrize(
         "func",
@@ -171,7 +200,7 @@ class TestPipe:
     ):
         fn = aio.pipe(
             lambda x: Ok(x),
-            aio.map(fake.plus_one_async),
+            aio.fmap(fake.plus_one_async),
             aio.bind(lambda x: Err[int, str](str(x))),
             fmap(lambda x: x + 1),
             fmap_err(lambda x: x + "a"),

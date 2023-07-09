@@ -1,5 +1,7 @@
 from typing import Literal
 
+import anyio
+
 from fp.promise import Err, Ok, Result
 
 
@@ -21,6 +23,15 @@ async def plus_one_async_ok(value: int):
 
 async def plus_one_async_err(value: int):
     return Err(value + 1)
+
+
+async def long_coro(duration: float):
+    await anyio.sleep(duration)
+    return Ok(duration)
+
+
+async def err_callback_async(value: int):
+    return "err_callback_async"
 
 
 def fail_if_called(value: object):
