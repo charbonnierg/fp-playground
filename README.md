@@ -1,16 +1,16 @@
-# Function Programming in Python
+# Functional Programming Playground
 
 ## Installation
 
 This project is not yet published under a PyPi-compatible registry such as `pypi.org` or Azure Artifact Feed.
 
-In order to be installed, you must have pull access for the git repository. You can either:
+In order to be installed, you must have pull access for the git repository. You can:
 
-- Clone the repository and install (for developers):
+- Clone the repository and install:
 
     ```bash
     # Clone the git repository
-    git clone <origin_url> fp/
+    git clone git@ssh.dev.azure.com:v3/QUARA/quara-sandbox/fp-playground fp/
     # Enter the repository directory
     cd fp/
     # Create a new virtual environment
@@ -24,13 +24,6 @@ In order to be installed, you must have pull access for the git repository. You 
     > For Python 3.8 users, `--upgrade-deps` option is not available. Simply don't use it, and instead
     > run `pip install -U pip setuptools wheel` within virtual environment after it is created.
 
-- Install the project in the environment of your choice (for users):
-
-    ```bash
-    python -m pip install git+ssh://<origin_url>
-    ```
-
-    > The command above will install the package into the environment of the current python interpreter.
 
 ## Usage
 
