@@ -168,7 +168,7 @@ def ci(
     print("Type checking... ⏳")
     check(c)
     print("Testing... ⏳")
-    test(c, e2e=e2e, v=v, vv=vv, vvv=vvv, cov="src")
+    test(c, e2e=e2e, v=v, vv=vv, vvv=vvv, cov="src/fp")
 
 
 @task

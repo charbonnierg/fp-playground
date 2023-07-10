@@ -7,9 +7,8 @@ from enum import IntEnum
 
 from typing_extensions import Never, Self, reveal_type
 
-from fp import Result, bind_err, pipe
-from fp.result import Err
-from fp.struct.error import Error
+from fp import Err, Result, bind_err, pipe
+from fp_extras.error import Error
 
 
 def assert_never(x: Never) -> Never:  # type: ignore

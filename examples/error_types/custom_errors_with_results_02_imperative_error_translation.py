@@ -7,9 +7,8 @@ from enum import IntEnum
 
 from typing_extensions import Never, Self, reveal_type
 
-from fp import Result
-from fp.result import Err
-from fp.struct.error import Error
+from fp import Err, Result
+from fp_extras.error import Error
 
 T = t.TypeVar("T")
 

@@ -17,7 +17,11 @@ classifiers = [
 dynamic = ["version"]
 dependencies = []
 
+[project.scripts]
+"fp" = "_fp_devtools.__main__:app"
+
 [project.optional-dependencies]
+devtools = ["typer", "rich"]
 dev = [
     "anyio",
     "build",
