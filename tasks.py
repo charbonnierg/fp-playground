@@ -89,6 +89,7 @@ def test(
     e2e: bool = False,
     markers: str = "",
     pattern: str = "",
+    doctest: bool = True,
     x: bool = False,
     v: bool = False,
     vv: bool = False,
@@ -107,12 +108,14 @@ def test(
         cmd += " -v"
     else:
         cmd += " -q"
+    if doctest:
+        run_or_display(c, f"{cmd} src --doctest-modules", dry_run=dry_run)
     if markers:
         cmd += f" -m {markers}"
     if pattern:
         cmd += f" -p {pattern}"
     if cov:
-        cmd += f" --cov {cov} --cov-report=html:coverage-report --cov-report=term-missing --cov-fail-under=100"
+        cmd += f" --cov {cov} --cov-report=html:coverage-report --cov-report=term --cov-fail-under=100"
     if e2e:
         cmd += " tests"
     else:
@@ -168,7 +171,7 @@ def ci(
     print("Type checking... ⏳")
     check(c)
     print("Testing... ⏳")
-    test(c, e2e=e2e, v=v, vv=vv, vvv=vvv, cov="src/fp")
+    test(c, e2e=e2e, v=v, vv=vv, vvv=vvv, cov="src/fp", doctest=True)
 
 
 @task

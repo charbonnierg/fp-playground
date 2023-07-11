@@ -5,6 +5,7 @@ from .__about__ import __version__
 from .fn_sync import bind, bind_err, fmap, fmap_err, pipe, visit, within_context
 from .promise import Promise
 from .result import Err, Ok, Result
+from .writer import WErr, WOk, WResult
 
 __all__ = [
     "__version__",
@@ -20,4 +21,7 @@ __all__ = [
     "Err",
     "Result",
     "Promise",
+    "WOk",
+    "WErr",
+    "WResult",
 ]

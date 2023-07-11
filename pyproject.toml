@@ -15,7 +15,7 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
 ]
 dynamic = ["version"]
-dependencies = []
+dependencies = ["anyio"]
 
 [project.scripts]
 "fp" = "_fp_devtools.__main__:app"
@@ -23,7 +23,6 @@ dependencies = []
 [project.optional-dependencies]
 devtools = ["typer", "rich"]
 dev = [
-    "anyio",
     "build",
     "black",
     "isort",
